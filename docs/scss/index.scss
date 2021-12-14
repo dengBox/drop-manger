@@ -6,13 +6,24 @@ body {
   width: 1000px;
   height: 800px;
   margin: 10px auto;
-  border: 1px solid #0f0;
-  #dropEl {
+  box-shadow: 0 0 10px #eee;
+  position: relative;
+  .dropEl {
     width: 100px;
     height: 100px;
-    border: 1px solid #fff;
+    border: 1px solid #f00;
+    position: absolute;
+    &.dropEl:nth-child(2) {
+      left: 110px;
+      border-color: #0f0;
+    }
+    &.dropEl:nth-child(3) {
+      left: 220px;
+      border-color: #00f;
+    }
   }
   .boshen_active_drop {
-    box-shadow: 0 0 10px #f00;
+    transition: box-shadow .3s;
+    box-shadow: 0 0 10px #0ff;
   }
 }

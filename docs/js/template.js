@@ -1,7 +1,9 @@
 const App = {
   template: `
     <div id="wrap">
-      <div id="dropEl"><div>
+      <div class="dropEl"></div>
+      <div class="dropEl"></div>
+      <div class="dropEl"></div>
     </div>
   `,
   data () {
@@ -9,9 +11,13 @@ const App = {
     }
   },
   mounted () {
-    const drop = new window.DropManger({
-      el: document.querySelector('#dropEl')
-    })
+    const wrap = document.querySelector('#wrap')
+    for (const el of document.querySelectorAll('.dropEl')) {
+        new window.DropManger({
+          el,
+          wrap
+        })
+    }
   },
   methods: {
   }

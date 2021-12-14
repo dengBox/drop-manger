@@ -15,6 +15,7 @@ import '../docs/scss/index.scss'
 
 const globleConfig = {
   el: null,
+  wrap: null,
   type: 'position',
   useHtmlDrop: false,
   activeClass: 'boshen_active_drop',
@@ -41,8 +42,8 @@ export default class DropManger {
       y: 0
     },
     dom: {
-      x: 0,
-      y: 0,
+      offX: 0,
+      offY: 0,
       width: 0,
       height: 0
     }
@@ -81,13 +82,13 @@ export default class DropManger {
       x: event.x,
       y: event.y
     }
-    this.activePosition.dom = this.getPosition(this.config.el)
+    this.activePosition.dom = this.getPosition(this.config.el, this.config.wrap)
 
     this.config.el.classList.add(this.config.activeClass)
     if (this.config.type === 'position') {
       const style = this.config.el.style
       if (!style.position) {
-        this.config.el.style.position = 'fixed'
+        this.config.el.style.position = 'absolute'
       }
     } else {
       // transform
@@ -97,12 +98,15 @@ export default class DropManger {
 
   dragMove (event:any) {
     // 要不要做防抖呢？（先不做吧）
-    const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.x
-    const y = event.y - this.activePosition.mouse.y + this.activePosition.dom.y
+    // const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.x
     if (this.config.type === 'position') {
+      const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.offX
+      const y = event.y - this.activePosition.mouse.y + this.activePosition.dom.offY
       const style = this.config.el.style
       style.left = this.converUnit(x)
       style.top = this.converUnit(y)
+    } else {
+      // transform
     }
     this.dropState = 'move'
     this.config.hook.dropMove()
@@ -118,14 +122,22 @@ export default class DropManger {
   }
 
   // --------untils-----------
-  getPosition (el: Element) {
+  getPosition (el: Element, wrapEl: Element) {
     // 要不要做宽度高度最小值限定呢？（太小了不好点）
-    const v = el.getBoundingClientRect()
+    const eV = el.getBoundingClientRect()
+    const wV = wrapEl
+      ? wrapEl.getBoundingClientRect()
+      : {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+      }
     return {
-      x: v.x,
-      y: v.y,
-      width: v.width,
-      height: v.height
+      offX: eV.x - wV.x,
+      offY: eV.y - wV.y,
+      width: eV.width,
+      height: eV.height
     }
   }
 

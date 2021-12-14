@@ -16,9 +16,9 @@ export default class DropManger {
     dragStart(event: any): void;
     dragMove(event: any): void;
     dragEnd(event: any): void;
-    getPosition(el: Element): {
-        x: number;
-        y: number;
+    getPosition(el: Element, wrapEl: Element): {
+        offX: number;
+        offY: number;
         width: number;
         height: number;
     };

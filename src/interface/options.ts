@@ -9,6 +9,7 @@ export interface Hook {
 
 export interface Options {
   el: Element,
+  wrap: Element,
   type: 'position' | 'transform',
   useHtmlDrop: Boolean,
   hook: Hook,
@@ -21,9 +22,9 @@ export interface Position {
     x: number, // left
     y: number // top
   },
-  dom: {
-    x: number, // left
-    y: number, // top
+  dom: {// 相对于容器的位置
+    offX: number, // left
+    offY: number, // top
     width: number,
     height: number
   }

@@ -86,12 +86,12 @@ const outputMap = [
 ]
 
 // 开发环境会引入esm模块，导致编译出错。
-if (isProduction) {
-  outputMap.push({
-    file: packageJSON.module, // es6模块
-    format: 'es'
-  })
-}
+// if (isProduction) {
+//   outputMap.push({
+//     file: packageJSON.module, // es6模块
+//     format: 'es'
+//   })
+// }
 
 const buildConf = (options) => Object.assign({}, commonConf, options)
 
