@@ -1,3 +1,15 @@
 body {
   background-color: #000;
 }
+
+#wrap {
+  width: 1000px;
+  height: 800px;
+  margin: 10px auto;
+  border: 1px solid #0f0;
+  #dropEl {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #fff;
+  }
+}

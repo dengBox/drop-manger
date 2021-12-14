@@ -1,4 +1,4 @@
-import { isObject, isobject } from './helpers/utils'
+import { isObject, isobject, deepCopy } from './helpers/utils'
 import { Options } from './interface/options'
 import { DropState } from './interface/state'
 import { log } from './helpers/log'
@@ -13,52 +13,82 @@ import '../docs/scss/index.scss'
 //   })
 // }
 
-const defaultConfig = {
+const globleConfig = {
   el: null,
   type: 'position',
   useHtmlDrop: false,
-  hook: {}
+  activeClass: 'boshen_active_drop',
+  hook: {
+    dropStart: () => {
+      console.log('drop:start')
+    },
+    dropMove: () => {
+      console.log('drop:move')
+    },
+    dropEnd: () => {
+      console.log('drop:end')
+    }
+  }
 }
 
 export default class DropManger {
   dropState: DropState = 'unstart'
+  config = deepCopy(globleConfig)
+  activePosition: object = {}
+  bindEvent = {
+    start: this.dragStart.bind(this),
+    move: this.dragMove.bind(this),
+    end: this.dragEnd.bind(this)
+  }
+
   constructor (options: Options) {
     this._init(options)
   }
 
   _init (opt: Options) {
     if (!opt.el) log('error', 'Please pass in the moving object')
-    this.margeConfig(opt, defaultConfig)
-
-    bindEvent(defaultConfig.el || window, 'start', this.startStart)
-    bindEvent(defaultConfig.el || window, 'move', this.startMove)
-    bindEvent(defaultConfig.el || window, 'end', this.startEnd)
+    this.margeConfig(this.config, opt)
+    bindEvent(this.config.el || window, 'start', this.bindEvent.start)
   }
 
   // --------life style-------
 
   destory () {
     if (this.dropState !== 'unstart') {
-      unbindEvent(defaultConfig.el || window, 'start', this.startStart)
-      unbindEvent(defaultConfig.el || window, 'move', this.startMove)
-      unbindEvent(defaultConfig.el || window, 'end', this.startEnd)
+      unbindEvent(this.config.el || window, 'start', this.bindEvent.start)
     }
   }
 
   // --------methods----------
-  startStart () {
+  dragStart (event:any) {
+    bindEvent(window, 'move', this.bindEvent.move)
+    bindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'start'
+    this.getPosition(this.config.el)
+
+    this.config.el.classList.add(this.config.activeClass)
+    this.config.hook.dropStart()
   }
 
-  startMove () {
+  dragMove (event:any) {
     this.dropState = 'move'
+    this.config.hook.dropMove()
   }
 
-  startEnd () {
+  dragEnd (event:any) {
+    unbindEvent(window, 'move', this.bindEvent.move)
+    unbindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'end'
+    this.config.el.classList.remove(this.config.activeClass)
+
+    this.config.hook.dropEnd()
   }
 
   // --------untils-----------
+  getPosition (el: Element) {
+    console.log(el.getBoundingClientRect())
+  }
+
   // 默认认为 target 与 options 为相同数据结构
   margeConfig (target: any, options: any) {
     const arr = isObject(target) ? Object.keys(target) : target

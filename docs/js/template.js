@@ -1,12 +1,17 @@
 const App = {
   template: `
-    <div>app</div>
+    <div id="wrap">
+      <div id="dropEl"><div>
+    </div>
   `,
   data () {
     return {
     }
   },
-  created () {
+  mounted () {
+    const drop = new window.DropManger({
+      el: document.querySelector('#dropEl')
+    })
   },
   methods: {
   }

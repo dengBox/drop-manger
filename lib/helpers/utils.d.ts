@@ -7,4 +7,5 @@ export declare function os(): string;
  */
 export declare function isArray(val: any): boolean;
 export declare function isObject(val: any): boolean;
-export declare function isobject(val: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
+export declare function isobject(val: any): boolean;
+export declare function deepCopy(data: any): any;

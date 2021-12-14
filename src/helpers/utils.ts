@@ -19,9 +19,34 @@ export function isArray (val: any) {
 }
 
 export function isObject (val: any) {
-  return toS.call(val) === '[object object]'
+  return toS.call(val) === '[object Object]'
 }
 
 export function isobject (val: any) {
-  return typeof val
+  const v = toS.call(val)
+  return v === '[object Array]' || v === '[object Object]'
+}
+
+export function deepCopy (data:any) {
+  const t = !isArray(data) ? isObject(data) ? 'object' : 'other' : 'array'
+  let o:any
+
+  if (t === 'array') {
+    o = []
+  } else if (t === 'object') {
+    o = {}
+  } else {
+    return data
+  }
+
+  if (t === 'array') {
+    for (let i = 0; i < data.length; i++) {
+      o.push(deepCopy(data[i]))
+    }
+  } else if (t === 'object') {
+    for (const i in data) {
+      o[i] = deepCopy(data[i])
+    }
+  }
+  return o
 }

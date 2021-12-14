@@ -19,5 +19,5 @@ export function bindEvent (target: Element | Window, eventName: eventType, cb:an
   target.addEventListener(eventMap[eventName], cb)
 }
 export function unbindEvent (target: Element| Window, eventName: eventType, cb:any) {
-  target.addEventListener(eventMap[eventName], cb)
+  target.removeEventListener(eventMap[eventName], cb)
 }
