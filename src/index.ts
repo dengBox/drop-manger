@@ -1,5 +1,5 @@
 import { isObject, isobject, deepCopy } from './helpers/utils'
-import { Options } from './interface/options'
+import { Options, Position, unitType } from './interface/options'
 import { DropState } from './interface/state'
 import { log } from './helpers/log'
 import { bindEvent, unbindEvent } from './helpers/event'
@@ -18,6 +18,7 @@ const globleConfig = {
   type: 'position',
   useHtmlDrop: false,
   activeClass: 'boshen_active_drop',
+  unit: 'px',
   hook: {
     dropStart: () => {
       console.log('drop:start')
@@ -34,7 +35,19 @@ const globleConfig = {
 export default class DropManger {
   dropState: DropState = 'unstart'
   config = deepCopy(globleConfig)
-  activePosition: object = {}
+  activePosition: Position = {
+    mouse: {
+      x: 0,
+      y: 0
+    },
+    dom: {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0
+    }
+  }
+
   bindEvent = {
     start: this.dragStart.bind(this),
     move: this.dragMove.bind(this),
@@ -64,13 +77,33 @@ export default class DropManger {
     bindEvent(window, 'move', this.bindEvent.move)
     bindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'start'
-    this.getPosition(this.config.el)
+    this.activePosition.mouse = {
+      x: event.x,
+      y: event.y
+    }
+    this.activePosition.dom = this.getPosition(this.config.el)
 
     this.config.el.classList.add(this.config.activeClass)
+    if (this.config.type === 'position') {
+      const style = this.config.el.style
+      if (!style.position) {
+        this.config.el.style.position = 'fixed'
+      }
+    } else {
+      // transform
+    }
     this.config.hook.dropStart()
   }
 
   dragMove (event:any) {
+    // 要不要做防抖呢？（先不做吧）
+    const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.x
+    const y = event.y - this.activePosition.mouse.y + this.activePosition.dom.y
+    if (this.config.type === 'position') {
+      const style = this.config.el.style
+      style.left = this.converUnit(x)
+      style.top = this.converUnit(y)
+    }
     this.dropState = 'move'
     this.config.hook.dropMove()
   }
@@ -86,7 +119,14 @@ export default class DropManger {
 
   // --------untils-----------
   getPosition (el: Element) {
-    console.log(el.getBoundingClientRect())
+    // 要不要做宽度高度最小值限定呢？（太小了不好点）
+    const v = el.getBoundingClientRect()
+    return {
+      x: v.x,
+      y: v.y,
+      width: v.width,
+      height: v.height
+    }
   }
 
   // 默认认为 target 与 options 为相同数据结构
@@ -98,5 +138,10 @@ export default class DropManger {
         ? this.margeConfig(target[k], options[k])
         : options[k] && (target[k] = options[k])
     })
+  }
+
+  converUnit (value: number, type: unitType = this.config.unit) {
+    // 换算单位
+    return value + type
   }
 }

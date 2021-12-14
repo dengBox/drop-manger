@@ -4,6 +4,7 @@
 范围|描述|commitId
 --|--|--
  - | 初始化项目 | [8f0259a](https://github.com/dengBox/drop-manger/commit/8f0259a)
+ - | 增加事件监听,基本拖拽事件完善 | [6265d76](https://github.com/dengBox/drop-manger/commit/6265d76)
  - | DropManger类完善 | [ef10fe2](https://github.com/dengBox/drop-manger/commit/ef10fe2)
 
 

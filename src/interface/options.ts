@@ -1,3 +1,5 @@
+export type eventType = 'start' | 'move' | 'end'
+export type unitType = 'px' | 'mm' | 'cm'
 
 export interface Hook {
   dropStart: () => {},
@@ -10,7 +12,19 @@ export interface Options {
   type: 'position' | 'transform',
   useHtmlDrop: Boolean,
   hook: Hook,
-  activeClass: string
+  activeClass: string,
+  unit: unitType
 }
 
-export type eventType = 'start' | 'move' | 'end'
+export interface Position {
+  mouse: {
+    x: number, // left
+    y: number // top
+  },
+  dom: {
+    x: number, // left
+    y: number, // top
+    width: number,
+    height: number
+  }
+}
