@@ -96,5 +96,5 @@ if (isProduction) {
 const buildConf = (options) => Object.assign({}, commonConf, options)
 
 export default outputMap.map((output) =>
-  buildConf({ output: { name: 'DataManger', ...output } })
+  buildConf({ output: { name: 'DropManger', ...output } })
 )

@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "serve": "cross-env NODE_ENV=developemnt rollup -c -w",
-    "build": "rm -fr docs && cross-env NODE_ENV=production rollup -c",
+    "build": "rm -fr lib && cross-env NODE_ENV=production rollup -c",
     "build:docs": "cross-env NODE_ENV=developemnt rollup -c",
     "lint": "eslint --fix",
     "test": "jest --coverage",
