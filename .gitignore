@@ -1,0 +1,22 @@
+.DS_Store
+node_modules
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build files
+/dist
+/lib
+
+# Test File
+/coverage
+test-report.html
+
+# Editor directories and files
+.idea

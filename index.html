@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- <link rel="icon" href="./favicon.ico"> -->
+  <!-- <link rel="stylesheet" href="__STYLE_URL__"> -->
+  <title>data-manger</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    *::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      /*滚动条里面小方块*/
+      border-radius: 8px;
+      background-color: skyblue;
+      background-image: -webkit-linear-gradient(45deg,
+        rgba(255, 255, 255, 0.2) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        transparent 75%,
+        transparent)
+    }
+
+    *::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #ededed;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but bxh-ui doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+<script  src="lib/index.js"></script>
+</body>
+  <!-- 编译时需要手动拷贝public下除去scss文件以外的静态文件 到docs目录 -->
+  <script src="./docs/js/vue.min.js"></script>
+  <script src="./docs/js/iview.min.js"></script>
+  <script src="./docs/js/template.js"></script>
+</html>
