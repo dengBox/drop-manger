@@ -85,28 +85,38 @@ export default class DropManger {
     this.activePosition.dom = this.getPosition(this.config.el, this.config.wrap)
 
     this.config.el.classList.add(this.config.activeClass)
+    const style = this.config.el.style
     if (this.config.type === 'position') {
-      const style = this.config.el.style
       if (!style.position) {
         this.config.el.style.position = 'absolute'
       }
     } else {
-      // transform
+      if (!style.transform) {
+        this.config.el.style.transform = 'matrix(1, 0, 0, 1, 0, 0)'
+      }
     }
     this.config.hook.dropStart()
   }
 
   dragMove (event:any) {
     // 要不要做防抖呢？（先不做吧）
-    // const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.x
+    let x = event.x - this.activePosition.mouse.x
+    let y = event.y - this.activePosition.mouse.y
+    const style = this.config.el.style
     if (this.config.type === 'position') {
-      const x = event.x - this.activePosition.mouse.x + this.activePosition.dom.offX
-      const y = event.y - this.activePosition.mouse.y + this.activePosition.dom.offY
-      const style = this.config.el.style
+      x += this.activePosition.dom.offX
+      y += this.activePosition.dom.offY
       style.left = this.converUnit(x)
       style.top = this.converUnit(y)
     } else {
-      // transform
+      // style.transform = `translate(${this.converUnit(x)}, ${this.converUnit(y)})`
+      // matrix(1, 0, 0, 1, x, y)
+      const matrixArr = style.transform.slice(7, -1).split(',')
+      style.transform = `matrix(1, 0, 0, 1, ${Number(matrixArr[4]) + x}, ${Number(matrixArr[5]) + y})`
+      this.activePosition.mouse = {
+        x: event.x,
+        y: event.y
+      }
     }
     this.dropState = 'move'
     this.config.hook.dropMove()

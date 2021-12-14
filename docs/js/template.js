@@ -15,7 +15,8 @@ const App = {
     for (const el of document.querySelectorAll('.dropEl')) {
         new window.DropManger({
           el,
-          wrap
+          wrap,
+          type: 'transform'
         })
     }
   },

@@ -12,13 +12,14 @@ body {
     width: 100px;
     height: 100px;
     border: 1px solid #f00;
-    position: absolute;
+    cursor: pointer;
+    // position: absolute;
     &.dropEl:nth-child(2) {
-      left: 110px;
+      // left: 110px;
       border-color: #0f0;
     }
     &.dropEl:nth-child(3) {
-      left: 220px;
+      // left: 220px;
       border-color: #00f;
     }
   }

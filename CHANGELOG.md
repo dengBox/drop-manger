@@ -5,6 +5,7 @@
 --|--|--
  - | 初始化项目 | [8f0259a](https://github.com/dengBox/drop-manger/commit/8f0259a)
  - | 基本拖拽功能完成 | [92e7926](https://github.com/dengBox/drop-manger/commit/92e7926)
+ - | 增加容器限定 | [01dcf17](https://github.com/dengBox/drop-manger/commit/01dcf17)
  - | 增加事件监听,基本拖拽事件完善 | [6265d76](https://github.com/dengBox/drop-manger/commit/6265d76)
  - | DropManger类完善 | [ef10fe2](https://github.com/dengBox/drop-manger/commit/ef10fe2)
 
