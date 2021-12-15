@@ -2,6 +2,7 @@ import { Options, Position, unitType } from './interface/options';
 import { DropState } from './interface/state';
 import '../docs/scss/index.scss';
 export default class DropManger {
+    _os: string;
     dropState: DropState;
     config: any;
     activePosition: Position;
@@ -24,4 +25,5 @@ export default class DropManger {
     };
     margeConfig(target: any, options: any): void;
     converUnit(value: number, type?: unitType): string;
+    changeEvent(event: any): any;
 }

@@ -1,8 +1,8 @@
-import { isObject, isobject, deepCopy } from './helpers/utils'
+import { isObject, isobject, deepCopy, os } from './helpers/utils'
 import { Options, Position, unitType } from './interface/options'
 import { DropState } from './interface/state'
 import { log } from './helpers/log'
-import { bindEvent, unbindEvent } from './helpers/event'
+import { bindEvent, unbindEvent, preventEvent } from './helpers/event'
 
 // 开发文档时 引入样式（umd模式不支持code-split）
 import '../docs/scss/index.scss'
@@ -34,6 +34,7 @@ const globleConfig = {
 }
 
 export default class DropManger {
+  _os = os()
   dropState: DropState = 'unstart'
   config = deepCopy(globleConfig)
   activePosition: Position = {
@@ -75,6 +76,12 @@ export default class DropManger {
 
   // --------methods----------
   dragStart (event:any) {
+    preventEvent(event)
+    event = this.changeEvent(event)
+    if (event.button && event.button === 2) {
+      console.log('click-right')
+      return
+    }
     bindEvent(window, 'move', this.bindEvent.move)
     bindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'start'
@@ -99,6 +106,8 @@ export default class DropManger {
   }
 
   dragMove (event:any) {
+    preventEvent(event)
+    event = this.changeEvent(event)
     // 要不要做防抖呢？（先不做吧）
     let x = event.x - this.activePosition.mouse.x
     let y = event.y - this.activePosition.mouse.y
@@ -123,6 +132,8 @@ export default class DropManger {
   }
 
   dragEnd (event:any) {
+    preventEvent(event)
+    event = this.changeEvent(event)
     unbindEvent(window, 'move', this.bindEvent.move)
     unbindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'end'
@@ -165,5 +176,15 @@ export default class DropManger {
   converUnit (value: number, type: unitType = this.config.unit) {
     // 换算单位
     return value + type
+  }
+
+  changeEvent (event:any) {
+    // event.changedTouches
+    return this._os !== 'mobile'
+      ? event
+      : {
+        x: event.changedTouches[0].clientX,
+        y: event.changedTouches[0].clientY
+      }
   }
 }
