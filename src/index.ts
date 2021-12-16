@@ -4,15 +4,6 @@ import { DropState } from './interface/state'
 import { log } from './helpers/log'
 import { bindEvent, unbindEvent, preventEvent } from './helpers/event'
 
-// 开发文档时 引入样式（umd模式不支持code-split）
-import '../docs/scss/index.scss'
-
-// if (process.env.NODE_ENV === 'production') {
-//   import('../public/scss/index.scss').then(res => {
-//     console.log('加载文档样式')
-//   })
-// }
-
 const globleConfig = {
   el: null,
   wrap: null,
@@ -76,6 +67,7 @@ export default class DropManger {
 
   // --------methods----------
   dragStart (event:any) {
+    event.returnValue = false
     preventEvent(event)
     event = this.changeEvent(event)
     if (event.button && event.button === 2) {

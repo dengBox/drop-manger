@@ -12,6 +12,7 @@ yarn-error.log*
 
 # Build files
 /dist
+/lib
 
 # Test File
 /coverage

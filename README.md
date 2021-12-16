@@ -1,6 +1,11 @@
 # drop-manger
 2D editor drag tool
 
+## development
+
+1. yarn serve （启动库开发）
+2. cd ./example && yarn serve （启动文档开发）
+
 ## design
 
 本库需要完成以下目标

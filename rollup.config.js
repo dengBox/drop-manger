@@ -6,14 +6,11 @@ import { eslint } from 'rollup-plugin-eslint'
 import ts from 'rollup-plugin-typescript2'
 
 import { terser } from 'rollup-plugin-terser'
-import postcss from 'rollup-plugin-postcss'
-import cssnano from 'cssnano'
-import cssnext from 'postcss-cssnext'
 import template from 'rollup-plugin-generate-html-template'
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
 
-import packageJSON from './package.json'
+// import packageJSON from './package.json'
 // html需要与资源文件在同一目录结构下
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -59,17 +56,13 @@ const commonConf = {
     include: 'src/**'
   },
   plugins: [
-    postcss({
-      plugins: [cssnext, cssnano]
-      // extract: getPath(`../docs/${packageJSON.name}.css`) // 输出路径
-    }),
     resolve(extensions),
     commonjs(),
     esPlugin,
     tsPlugin,
     template({
-      template: './docs/index.html',
-      target: getPath('./index.html')
+      template: './index.html',
+      target: getPath('./example/public/index.html')
       // replaceVars: {
       //   __STYLE_URL__: `./lib/${packageJSON.name}.css`
       // }
@@ -80,7 +73,8 @@ const commonConf = {
 // 需要导出的模块类型
 const outputMap = [
   {
-    file: packageJSON.main, // 通用模块
+    file: './example/public/plugin/index.js', // 通用模块
+    // file: !isProduction ? './example/public/plugin/index.js' : packageJSON.main, // 通用模块
     format: 'umd'
   }
 ]
