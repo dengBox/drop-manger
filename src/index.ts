@@ -33,7 +33,7 @@ const globleConfig = {
   }
 }
 
-export default class DropManger {
+class DropNode {
   _os = os()
   dropState: DropState = 'unstart'
   config = deepCopy(globleConfig)
@@ -186,5 +186,36 @@ export default class DropManger {
         x: event.changedTouches[0].clientX,
         y: event.changedTouches[0].clientY
       }
+  }
+}
+
+export default class DropManger {
+  nodeList: DropNode[] = []
+
+  createNode (options: Options) {
+    const node = new DropNode(options)
+    // 在新建节点时监听该节点 start 事件，用以控制 node 顺序
+    bindEvent(node.config.el || window, 'start', () => {
+      this.sortList(node)
+      this.setNodeZIndex()
+    })
+    this.nodeList.push(node)
+  }
+
+  /**
+   * 对 nodeList 进行排序
+   * @param node 当前用户所选择节点，会将此节点移动至数组最后端
+   */
+  sortList (node: DropNode) {
+    const index = this.nodeList.indexOf(node)
+    this.nodeList.splice(index, 1)
+    this.nodeList.push(node)
+  }
+
+  // 设置节点 zIndex 来控制节点层叠顺序
+  setNodeZIndex () {
+    this.nodeList.forEach((item, index) => {
+      item.config.el.style.zIndex = index * 10 + 1
+    })
   }
 }

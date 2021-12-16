@@ -1,7 +1,7 @@
 import { Options, Position, unitType } from './interface/options';
 import { DropState } from './interface/state';
 import '../docs/scss/index.scss';
-export default class DropManger {
+declare class DropNode {
     _os: string;
     dropState: DropState;
     config: any;
@@ -27,3 +27,14 @@ export default class DropManger {
     converUnit(value: number, type?: unitType): string;
     changeEvent(event: any): any;
 }
+export default class DropManger {
+    nodeList: DropNode[];
+    createNode(options: Options): void;
+    /**
+     * 对 nodeList 进行排序
+     * @param node 当前用户所选择节点，会将此节点移动至数组最后端
+     */
+    sortList(node: DropNode): void;
+    setNodeZIndex(): void;
+}
+export {};

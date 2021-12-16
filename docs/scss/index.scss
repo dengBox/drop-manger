@@ -13,7 +13,7 @@ body {
     height: 100px;
     border: 1px solid #f00;
     cursor: pointer;
-    // position: absolute;
+    position: relative;
     &.dropEl:nth-child(2) {
       // left: 110px;
       border-color: #0f0;

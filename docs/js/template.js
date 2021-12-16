@@ -8,12 +8,14 @@ const App = {
   `,
   data () {
     return {
+      dropManage: null
     }
   },
   mounted () {
     const wrap = document.querySelector('#wrap')
+    this.dropManage = new window.DropManger()
     for (const el of document.querySelectorAll('.dropEl')) {
-        new window.DropManger({
+        this.dropManage.createNode({
           el,
           wrap,
           type: 'transform'
