@@ -1,4 +1,10 @@
 ## [0.0.1](https://github.com/dengBox/drop-manger/compare/v1.0.0...v0.0.1) (2021-12-16)
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 更改架构 | [7c50cf6](https://github.com/dengBox/drop-manger/commit/7c50cf6)
+
 # [1.0.0](https://github.com/dengBox/drop-manger/compare/8f8258e...v1.0.0) (2021-12-15)
 
 ### 🌟 新功能

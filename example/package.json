@@ -1,7 +1,6 @@
 {
   "name": "vue2-app",
   "version": "1.0.0",
-  "private": false,
   "description": "",
   "author": "dengbo <1716775221@qq.com>",
   "scripts": {
@@ -51,6 +50,7 @@
       "autoprefixer": {}
     }
   },
+  "license": "MIT OR Apache-2.0",
   "browserslist": [
     "> 1%",
     "last 2 versions"
