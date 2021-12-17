@@ -1,4 +1,5 @@
-## [0.0.1](https://github.com/dengBox/drop-manger/compare/v1.0.0...v0.0.1) (2021-12-17)
+## [0.0.1](https://github.com/dengBox/drop-manger/compare/v0.2.0...v0.0.1) (2021-12-17)
+# [0.2.0](https://github.com/dengBox/drop-manger/compare/v0.1.0...v0.2.0) (2021-12-17)
 
 ### 🌟 新功能
 范围|描述|commitId
@@ -11,7 +12,13 @@
 --|--|--
  - | 更新文档 | [f61e63f](https://github.com/dengBox/drop-manger/commit/f61e63f)
 
-# [1.0.0](https://github.com/dengBox/drop-manger/compare/8f8258e...v1.0.0) (2021-12-15)
+
+### 📦 持续集成
+范围|描述|commitId
+--|--|--
+ - | 增加开源协议 | [3ed7925](https://github.com/dengBox/drop-manger/commit/3ed7925)
+
+# [0.1.0](https://github.com/dengBox/drop-manger/compare/8f8258e...v0.1.0) (2021-12-15)
 
 ### 🌟 新功能
 范围|描述|commitId

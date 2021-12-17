@@ -6,16 +6,16 @@ export default class DropManger {
     config: any;
     activePosition: Position;
     bindEvent: {
-        start: (event: any) => void;
-        move: (event: any) => void;
-        end: (event: any) => void;
+        start: (e: any) => void;
+        move: (e: any) => void;
+        end: (e: any) => void;
     };
     constructor(options: Options);
     _init(opt: Options): void;
     destory(): void;
-    dragStart(event: any): void;
-    dragMove(event: any): void;
-    dragEnd(event: any): void;
+    dragStart(e: any): void;
+    dragMove(e: any): void;
+    dragEnd(e: any): void;
     getPosition(el: Element, wrapEl: Element): {
         offX: number;
         offY: number;

@@ -6,8 +6,7 @@ import 'nprogress/nprogress.css'
 // import { read, save } from '@/storage'
 
 // 引入路由
-import Common from '@/views/Common.vue'
-// import NotFound from '@/components/status/404.vue'
+import Home from '@/views/Home.vue'
 
 NProgress.configure({ showSpinner: false })
 
@@ -47,17 +46,30 @@ const router = new VueRouter({
     },
     {
       path: '/home',
-      component: Common,
-      children: [
-        ...routerList
-      ]
+      component: Home,
+      children: []
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import('@/views/test/Index.vue')
+    },
+    {
+      path: '/docs',
+      name: 'docs',
+      component: () => import('@/views/docs/Index.vue')
+    },
+    {
+      path: '/editor',
+      name: 'editor',
+      component: () => import('@/views/editor/Index.vue')
+    },
+    ...routerList,
     {
       path: '*',
       name: '404',
-      // component: NotFound
       component: () => {
-        return ''
+        return '找不到该页面！'
       }
     }
   ]

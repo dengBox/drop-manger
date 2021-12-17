@@ -1,25 +1,16 @@
 <template>
   <div id="app">
-    <router-view />
+    <app-header />
+    <router-view class="router-wrap" />
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import AppHeader from '@/components/AppHeader.vue'
 export default {
   name: 'App',
-  data () {
-    return {
-    }
-  },
-  computed: {
-    ...mapState({
-    })
-  },
-  mounted () {
-  },
-  methods: {
-    ...mapMutations([''])
+  components: {
+    AppHeader
   }
 }
 </script>
@@ -30,6 +21,8 @@ body,
 #app {
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 #nprogress {
   .bar {

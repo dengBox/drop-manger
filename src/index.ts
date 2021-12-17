@@ -9,17 +9,23 @@ const globleConfig = {
   wrap: null,
   type: 'position',
   useHtmlDrop: false,
+  noConsole: false,
   activeClass: 'boshen_active_drop',
   unit: 'px',
   hook: {
-    dropStart: () => {
-      console.log('drop:start')
+    // life hook
+    dropStart: (target:any) => {
+      if (!target.config.noConsole) console.log('drop:start')
     },
-    dropMove: () => {
-      console.log('drop:move')
+    dropMove: (target:any) => {
+      if (!target.config.noConsole) console.log('drop:move')
     },
-    dropEnd: () => {
-      console.log('drop:end')
+    dropEnd: (target:any) => {
+      if (!target.config.noConsole) console.log('drop:end')
+    },
+    // other hook
+    rightClick: (target:any) => {
+      if (!target.config.noConsole) console.log('right:click')
     }
   }
 }
@@ -52,8 +58,8 @@ export default class DropManger {
   }
 
   _init (opt: Options) {
-    if (!opt.el) log('error', 'Please pass in the moving object')
     this.margeConfig(this.config, opt)
+    if (!opt.el && !this.config.noConsole) log('error', 'Please pass in the moving object')
     bindEvent(this.config.el || window, 'start', this.bindEvent.start)
   }
 
@@ -66,12 +72,11 @@ export default class DropManger {
   }
 
   // --------methods----------
-  dragStart (event:any) {
-    event.returnValue = false
-    preventEvent(event)
-    event = this.changeEvent(event)
+  dragStart (e:any) {
+    preventEvent(e)
+    const event = this.changeEvent(e)
     if (event.button && event.button === 2) {
-      console.log('click-right')
+      this.config.hook.rightClick(this, event)
       return
     }
     bindEvent(window, 'move', this.bindEvent.move)
@@ -94,12 +99,12 @@ export default class DropManger {
         this.config.el.style.transform = 'matrix(1, 0, 0, 1, 0, 0)'
       }
     }
-    this.config.hook.dropStart()
+    this.config.hook.dropStart(this, e)
   }
 
-  dragMove (event:any) {
-    preventEvent(event)
-    event = this.changeEvent(event)
+  dragMove (e:any) {
+    preventEvent(e)
+    const event = this.changeEvent(e)
     // 要不要做防抖呢？（先不做吧）
     let x = event.x - this.activePosition.mouse.x
     let y = event.y - this.activePosition.mouse.y
@@ -120,18 +125,18 @@ export default class DropManger {
       }
     }
     this.dropState = 'move'
-    this.config.hook.dropMove()
+    this.config.hook.dropMove(this, e)
   }
 
-  dragEnd (event:any) {
-    preventEvent(event)
-    event = this.changeEvent(event)
+  dragEnd (e:any) {
+    preventEvent(e)
+    // const event = this.changeEvent(e)
     unbindEvent(window, 'move', this.bindEvent.move)
     unbindEvent(window, 'end', this.bindEvent.end)
     this.dropState = 'end'
     this.config.el.classList.remove(this.config.activeClass)
 
-    this.config.hook.dropEnd()
+    this.config.hook.dropEnd(this, e)
   }
 
   // --------untils-----------
@@ -156,10 +161,10 @@ export default class DropManger {
 
   // 默认认为 target 与 options 为相同数据结构
   margeConfig (target: any, options: any) {
-    const arr = isObject(target) ? Object.keys(target) : target
+    const isO = isObject(target)
+    const arr = isO ? Object.keys(target) : target
     arr.forEach((k:any) => {
-      // 深度合并
-      isobject(k)
+      isobject(isO ? target[k] : k)
         ? this.margeConfig(target[k], options[k])
         : options[k] && (target[k] = options[k])
     })

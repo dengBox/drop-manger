@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "serve": "cross-env NODE_ENV=developemnt rollup -c -w",
+    "docs": "cd ./example && yarn serve",
     "build": "rm -fr lib && cross-env NODE_ENV=production rollup -c",
     "build:docs": "cross-env NODE_ENV=developemnt rollup -c",
     "lint": "eslint --fix",
