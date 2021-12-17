@@ -25,14 +25,14 @@ export default {
     }
   },
   mounted () {
-    document.addEventListener('contextmenu', this.prevent)
-    document.addEventListener('click', this.hideMenu)
+    this.$refs.wrap.addEventListener('contextmenu', this.prevent)
+    this.$refs.wrap.addEventListener('click', this.hideMenu)
     const wrap = document.querySelector('#wrap')
     this.init(wrap)
   },
   beforeDestroy () {
-    document.removeEventListener('contextmenu', this.prevent)
-    document.removeEventListener('click', this.hideMenu)
+    this.$refs.wrap.removeEventListener('contextmenu', this.prevent)
+    this.$refs.wrap.removeEventListener('click', this.hideMenu)
   },
   methods: {
     prevent (event) {
@@ -73,7 +73,12 @@ export default {
        *    b. 手动操作dom
        */
       if (!currentEl) console.error('currentEl is empty')
-      currentEl.style.zIndex = typeof index === 'number' ? index : 11
+      if (typeof index === 'number') {
+        currentEl.style.zIndex = index
+        this.zIndex = index
+      } else {
+        currentEl.style.zIndex = 11
+      }
       // this.$refs.wrap.appendChild(currentEl)
     },
     hideMenu () {
