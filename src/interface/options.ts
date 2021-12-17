@@ -14,7 +14,8 @@ export interface Options {
   useHtmlDrop: Boolean,
   hook: Hook,
   activeClass: string,
-  unit: unitType
+  unit: unitType,
+  noConsole: Boolean
 }
 
 export interface Position {
