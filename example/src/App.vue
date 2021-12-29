@@ -23,10 +23,11 @@ body,
   width: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #333;
 }
 #nprogress {
   .bar {
-    background: red !important;
+    background-color: red !important;
   }
 }
 </style>

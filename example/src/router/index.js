@@ -64,6 +64,21 @@ const router = new VueRouter({
       name: 'editor',
       component: () => import('@/views/editor/Index.vue')
     },
+    {
+      path: '/color',
+      name: 'color',
+      component: () => import('@/views/color/Index.vue')
+    },
+    {
+      path: '/blendColor',
+      name: 'blendColor',
+      component: () => import('@/views/color/BlendColor.vue')
+    },
+    {
+      path: '/createImg',
+      name: 'createImg',
+      component: () => import('@/views/color/CreateImg.vue')
+    },
     ...routerList,
     {
       path: '*',

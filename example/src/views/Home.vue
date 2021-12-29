@@ -29,6 +29,21 @@ export default {
           path: '/test',
           title: '测试页面',
           description: '一些测试页面'
+        },
+        {
+          path: '/color',
+          title: '颜色叠加',
+          description: '测试颜色叠加'
+        },
+        {
+          path: '/blendColor',
+          title: 'canvas颜色叠加',
+          description: '测试canvas颜色叠加'
+        },
+        {
+          path: '/createImg',
+          title: '根据颜色创建图片',
+          description: '测试创建图片'
         }
       ]
     }
@@ -40,6 +55,9 @@ export default {
   height: 100%;
   ::v-deep .ivu-layout-sider-children {
     padding: 10px;
+  }
+  .item-desc {
+    color: #bbb;
   }
 }
 </style>
