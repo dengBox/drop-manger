@@ -25,8 +25,6 @@
       <div class="init-warp">
         原图
         <img :src="img.url" alt="" v-for="img in blendData" :key="img.key">
-        <img src="@/assets/images/blend-cmyk.jpg" alt="">
-        <!-- <img src="@/assets/images/blend-rgba.jpg" alt=""> -->
       </div>
       <div ref="canvasWrap" id="content">
       </div>
@@ -68,17 +66,22 @@ export default {
         {
           value: '#f00',
           label: '红色',
-          img: require('@/assets/images/#FF0000_300px_300px.png')
+          img: require('@/assets/images/FF0000_300px_300px.png')
         },
         {
           value: '#0f0',
           label: '绿色',
-          img: require('@/assets/images/#00FF00_300px_300px.png')
+          img: require('@/assets/images/00FF00_300px_300px.png')
         },
         {
           value: '#00f',
           label: '蓝色',
-          img: require('@/assets/images/#0000FF_300px_300px.png')
+          img: require('@/assets/images/0000FF_300px_300px.png')
+        },
+        {
+          value: '#fff',
+          label: '白色',
+          img: require('@/assets/images/FFFFFF_300px_300px.png')
         }
       ],
       blendTool: null

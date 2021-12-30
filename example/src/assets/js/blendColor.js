@@ -97,6 +97,7 @@ export default class BlendColor {
     return new Promise((resolve, reject) => {
       const img = new Image()
       img.src = url
+      img.crossOrigin = ''
       img.onload = () => {
         resolve(img)
       }
@@ -115,8 +116,8 @@ export default class BlendColor {
    *
    * @param {Array} o 整块画布
    * @param {Array} n 要覆盖的区间
-   * @param {Object} offset n 相对于 o 的偏移index
-   * @param {Object} step n的区间
+   * @param {Number} offset n 相对于 o 的偏移index
+   * @param {Number} step n的区间
    * @param {Function} cb 每次循环回调
    * @returns void
    */

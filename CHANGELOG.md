@@ -1,9 +1,10 @@
-## [0.0.1](https://github.com/dengBox/drop-manger/compare/v0.2.0...v0.0.1) (2021-12-29)
+## [0.0.1](https://github.com/dengBox/drop-manger/compare/v0.2.0...v0.0.1) (2021-12-30)
 
 ### 🌟 新功能
 范围|描述|commitId
 --|--|--
  - | 示例增加zIndex | [b109b08](https://github.com/dengBox/drop-manger/commit/b109b08)
+ - | 增加叠色算法 | [e49055b](https://github.com/dengBox/drop-manger/commit/e49055b)
 
 
 ### 🐛 Bug 修复
