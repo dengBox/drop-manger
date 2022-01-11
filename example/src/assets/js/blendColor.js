@@ -123,7 +123,7 @@ export default class BlendColor {
    */
   _mapData (o, n, offset, step, cb) {
     const len = n.length
-    if (len < 1) return o
+    if (len < 1) return
 
     for (let l = len - 1; l > -1; l--) {
       if ((l + 1) % 4 === 0 && l > 0) {
