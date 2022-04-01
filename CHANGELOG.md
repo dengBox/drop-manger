@@ -1,9 +1,15 @@
-## [0.0.1](https://github.com/dengBox/drop-manger/compare/v0.2.0...v0.0.1) (2021-12-17)
+## [0.0.1](https://github.com/dengBox/drop-manger/compare/v0.2.0...v0.0.1) (2022-04-01)
 
 ### 🌟 新功能
 范围|描述|commitId
 --|--|--
  - | 示例增加zIndex | [b109b08](https://github.com/dengBox/drop-manger/commit/b109b08)
+
+
+### 🐛 Bug 修复
+范围|描述|commitId
+--|--|--
+ - | 修改zindex更新异常问题i | [36fba44](https://github.com/dengBox/drop-manger/commit/36fba44)
 
 # [0.2.0](https://github.com/dengBox/drop-manger/compare/v0.1.0...v0.2.0) (2021-12-17)
 

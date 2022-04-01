@@ -1,1 +1,259 @@
-!function(t,i){"object"==typeof exports&&"undefined"!=typeof module?module.exports=i():"function"==typeof define&&define.amd?define(i):(t="undefined"!=typeof globalThis?globalThis:t||self).DropManger=i()}(this,(function(){"use strict";var t=Object.prototype.toString;function i(){return navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)?"mobile":"pc"}function o(i){return"[object Object]"===t.call(i)}function n(i){var e,s,r=(e=i,"[object Array]"!==t.call(e)?o(i)?"object":"other":"array");if("array"===r)s=[];else{if("object"!==r)return i;s={}}if("array"===r)for(var c=0;c<i.length;c++)s.push(n(i[c]));else if("object"===r)for(var h in i)s[h]=n(i[h]);return s}var e="pc"===i()?{start:"mousedown",move:"mousemove",end:"mouseup"}:{start:"touchstart",move:"touchmove",end:"touchend"};function s(t){t.preventDefault()}function r(t,i,o){t.addEventListener(e[i],o,{passive:!1})}function c(t,i,o){t.removeEventListener(e[i],o)}var h={el:null,wrap:null,type:"position",useHtmlDrop:!1,noConsole:!1,activeClass:"boshen_active_drop",unit:"px",hook:{dropStart:function(t){t.config.noConsole},dropMove:function(t){t.config.noConsole},dropEnd:function(t){t.config.noConsole},rightClick:function(t){t.config.noConsole}}};return function(){function e(t){this._os=i(),this.dropState="unstart",this.config=n(h),this.activePosition={mouse:{x:0,y:0},dom:{offX:0,offY:0,width:0,height:0}},this.bindEvent={start:this.dragStart.bind(this),move:this.dragMove.bind(this),end:this.dragEnd.bind(this)},this._init(t)}var a=e.prototype;return a._init=function(t){var i,o;this.margeConfig(this.config,t),t.el||this.config.noConsole||(i="Please pass in the moving object",void 0===o&&(o=null),console["error"](i,o||"")),r(this.config.el||window,"start",this.bindEvent.start)},a.destory=function(){"unstart"!==this.dropState&&c(this.config.el||window,"start",this.bindEvent.start)},a.dragStart=function(t){s(t);var i=this.changeEvent(t);if(i.button&&2===i.button)this.config.hook.rightClick(this,i);else{r(window,"move",this.bindEvent.move),r(window,"end",this.bindEvent.end),this.dropState="start",this.activePosition.mouse={x:i.x,y:i.y},this.activePosition.dom=this.getPosition(this.config.el,this.config.wrap),this.config.el.classList.add(this.config.activeClass);var o=this.config.el.style;"position"===this.config.type?o.position||(this.config.el.style.position="absolute"):o.transform||(this.config.el.style.transform="matrix(1, 0, 0, 1, 0, 0)"),this.config.hook.dropStart(this,t)}},a.dragMove=function(t){s(t);var i=this.changeEvent(t),o=i.x-this.activePosition.mouse.x,n=i.y-this.activePosition.mouse.y,e=this.config.el.style;if("position"===this.config.type)o+=this.activePosition.dom.offX,n+=this.activePosition.dom.offY,e.left=this.converUnit(o),e.top=this.converUnit(n);else{var r=e.transform.slice(7,-1).split(",");e.transform="matrix(1, 0, 0, 1, "+(Number(r[4])+o)+", "+(Number(r[5])+n)+")",this.activePosition.mouse={x:i.x,y:i.y}}this.dropState="move",this.config.hook.dropMove(this,t)},a.dragEnd=function(t){s(t),c(window,"move",this.bindEvent.move),c(window,"end",this.bindEvent.end),this.dropState="end",this.config.el.classList.remove(this.config.activeClass),this.config.hook.dropEnd(this,t)},a.getPosition=function(t,i){var o=t.getBoundingClientRect(),n=i?i.getBoundingClientRect():{x:0,y:0,width:0,height:0};return{offX:o.x-n.x,offY:o.y-n.y,width:o.width,height:o.height}},a.margeConfig=function(i,n){var e=this,s=o(i);(s?Object.keys(i):i).forEach((function(o){var r,c;r=s?i[o]:o,"[object Array]"===(c=t.call(r))||"[object Object]"===c?e.margeConfig(i[o],n[o]):n[o]&&(i[o]=n[o])}))},a.converUnit=function(t,i){return void 0===i&&(i=this.config.unit),t+i},a.changeEvent=function(t){return"mobile"!==this._os?t:{x:t.changedTouches[0].clientX,y:t.changedTouches[0].clientY}},e}()}));
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.DropManger = factory());
+})(this, (function () { 'use strict';
+
+  // utils is a library of generic helper functions non-specific to axios
+  const toS = Object.prototype.toString;
+  function os() {
+      return navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)
+          ? 'mobile'
+          : 'pc';
+  }
+  /**
+   * Determine if a value is an Array
+   *
+   * @param {Object} val The value to test
+   * @returns {boolean} True if value is an Array, otherwise false
+   */
+  function isArray(val) {
+      return toS.call(val) === '[object Array]';
+  }
+  function isObject(val) {
+      return toS.call(val) === '[object Object]';
+  }
+  function isobject(val) {
+      const v = toS.call(val);
+      return v === '[object Array]' || v === '[object Object]';
+  }
+  function deepCopy(data) {
+      const t = !isArray(data) ? isObject(data) ? 'object' : 'other' : 'array';
+      let o;
+      if (t === 'array') {
+          o = [];
+      }
+      else if (t === 'object') {
+          o = {};
+      }
+      else {
+          return data;
+      }
+      if (t === 'array') {
+          for (let i = 0; i < data.length; i++) {
+              o.push(deepCopy(data[i]));
+          }
+      }
+      else if (t === 'object') {
+          for (const i in data) {
+              o[i] = deepCopy(data[i]);
+          }
+      }
+      return o;
+  }
+
+  function log(errorType, msgTitle, msgContent = null) {
+      console[errorType](msgTitle, msgContent || '');
+  }
+
+  const _os = os();
+  const eventMap = _os === 'pc'
+      ? {
+          start: 'mousedown',
+          move: 'mousemove',
+          end: 'mouseup'
+      }
+      : {
+          start: 'touchstart',
+          move: 'touchmove',
+          end: 'touchend'
+      };
+  function preventEvent(event) {
+      event.preventDefault();
+  }
+  function bindEvent(target, eventName, cb) {
+      target.addEventListener(eventMap[eventName], cb, { passive: false });
+  }
+  function unbindEvent(target, eventName, cb) {
+      target.removeEventListener(eventMap[eventName], cb);
+  }
+
+  const globleConfig = {
+      el: null,
+      wrap: null,
+      type: 'position',
+      useHtmlDrop: false,
+      noConsole: false,
+      activeClass: 'boshen_active_drop',
+      unit: 'px',
+      hook: {
+          // life hook
+          dropStart: (target) => {
+              if (!target.config.noConsole)
+                  console.log('drop:start');
+          },
+          dropMove: (target) => {
+              if (!target.config.noConsole)
+                  console.log('drop:move');
+          },
+          dropEnd: (target) => {
+              if (!target.config.noConsole)
+                  console.log('drop:end');
+          },
+          // other hook
+          rightClick: (target) => {
+              if (!target.config.noConsole)
+                  console.log('right:click');
+          }
+      }
+  };
+  class DropManger {
+      _os = os();
+      dropState = 'unstart';
+      config = deepCopy(globleConfig);
+      activePosition = {
+          mouse: {
+              x: 0,
+              y: 0
+          },
+          dom: {
+              offX: 0,
+              offY: 0,
+              width: 0,
+              height: 0
+          }
+      };
+      bindEvent = {
+          start: this.dragStart.bind(this),
+          move: this.dragMove.bind(this),
+          end: this.dragEnd.bind(this)
+      };
+      constructor(options) {
+          this._init(options);
+      }
+      _init(opt) {
+          this.margeConfig(this.config, opt);
+          if (!opt.el && !this.config.noConsole)
+              log('error', 'Please pass in the moving object');
+          bindEvent(this.config.el || window, 'start', this.bindEvent.start);
+      }
+      // --------life style-------
+      destory() {
+          if (this.dropState !== 'unstart') {
+              unbindEvent(this.config.el || window, 'start', this.bindEvent.start);
+          }
+      }
+      // --------methods----------
+      dragStart(e) {
+          preventEvent(e);
+          const event = this.changeEvent(e);
+          if (event.button && event.button === 2) {
+              this.config.hook.rightClick(this, event);
+              return;
+          }
+          bindEvent(window, 'move', this.bindEvent.move);
+          bindEvent(window, 'end', this.bindEvent.end);
+          this.dropState = 'start';
+          this.activePosition.mouse = {
+              x: event.x,
+              y: event.y
+          };
+          this.activePosition.dom = this.getPosition(this.config.el, this.config.wrap);
+          this.config.el.classList.add(this.config.activeClass);
+          const style = this.config.el.style;
+          if (this.config.type === 'position') {
+              if (!style.position) {
+                  this.config.el.style.position = 'absolute';
+              }
+          }
+          else {
+              if (!style.transform) {
+                  this.config.el.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
+              }
+          }
+          this.config.hook.dropStart(this, e);
+      }
+      dragMove(e) {
+          preventEvent(e);
+          const event = this.changeEvent(e);
+          // 要不要做防抖呢？（先不做吧）
+          let x = event.x - this.activePosition.mouse.x;
+          let y = event.y - this.activePosition.mouse.y;
+          const style = this.config.el.style;
+          if (this.config.type === 'position') {
+              x += this.activePosition.dom.offX;
+              y += this.activePosition.dom.offY;
+              style.left = this.converUnit(x);
+              style.top = this.converUnit(y);
+          }
+          else {
+              // style.transform = `translate(${this.converUnit(x)}, ${this.converUnit(y)})`
+              // matrix(1, 0, 0, 1, x, y)
+              const matrixArr = style.transform.slice(7, -1).split(',');
+              style.transform = `matrix(1, 0, 0, 1, ${Number(matrixArr[4]) + x}, ${Number(matrixArr[5]) + y})`;
+              this.activePosition.mouse = {
+                  x: event.x,
+                  y: event.y
+              };
+          }
+          this.dropState = 'move';
+          this.config.hook.dropMove(this, e);
+      }
+      dragEnd(e) {
+          preventEvent(e);
+          // const event = this.changeEvent(e)
+          unbindEvent(window, 'move', this.bindEvent.move);
+          unbindEvent(window, 'end', this.bindEvent.end);
+          this.dropState = 'end';
+          this.config.el.classList.remove(this.config.activeClass);
+          this.config.hook.dropEnd(this, e);
+      }
+      // --------untils-----------
+      getPosition(el, wrapEl) {
+          // 要不要做宽度高度最小值限定呢？（太小了不好点）
+          const eV = el.getBoundingClientRect();
+          const wV = wrapEl
+              ? wrapEl.getBoundingClientRect()
+              : {
+                  x: 0,
+                  y: 0,
+                  width: 0,
+                  height: 0
+              };
+          return {
+              offX: eV.x - wV.x,
+              offY: eV.y - wV.y,
+              width: eV.width,
+              height: eV.height
+          };
+      }
+      // 默认认为 target 与 options 为相同数据结构
+      margeConfig(target, options) {
+          const isO = isObject(target);
+          const arr = isO ? Object.keys(target) : target;
+          arr.forEach((k) => {
+              isobject(isO ? target[k] : k)
+                  ? this.margeConfig(target[k], options[k])
+                  : options[k] && (target[k] = options[k]);
+          });
+      }
+      converUnit(value, type = this.config.unit) {
+          // 换算单位
+          return value + type;
+      }
+      changeEvent(event) {
+          // event.changedTouches
+          return this._os !== 'mobile'
+              ? event
+              : {
+                  x: event.changedTouches[0].clientX,
+                  y: event.changedTouches[0].clientY
+              };
+      }
+  }
+
+  return DropManger;
+
+}));
